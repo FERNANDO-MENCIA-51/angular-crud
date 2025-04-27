@@ -1,12 +1,16 @@
 <div class="flex justify-between p-4">
-    <div class="flex justify-center items-center">
-        <button type="button" mat-icon-button>
-            <mat-icon>filter_list</mat-icon>
-        </button>
-
-        <input type="text" placeholder="Buscar producto" style="padding: 0.5rem;">
+    <div class="flex items-center w-full max-w-md relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <!-- Heroicon: Magnifying Glass -->
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"></path></svg>
+        </span>
+        <input
+            type="text"
+            [(ngModel)]="searchText"
+            placeholder="Buscar por nombre, descripción, moneda, precio, estado..."
+            class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 placeholder-gray-400"
+        >
     </div>
-
     <button type="button" mat-flat-button (click)="openProductDlg()">
         <mat-icon>add</mat-icon>
         Nuevo producto
@@ -14,7 +18,7 @@
 </div>
 
 <div class="w-full overflow-x-auto">
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="filteredProducts">
 
         <!-- Image Column -->
         <ng-container matColumnDef="image">

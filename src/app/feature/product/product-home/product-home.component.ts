@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-home',
@@ -17,14 +18,16 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
   ],
   templateUrl: './product-home.component.html',
-  styleUrl: './product-home.component.scss'
+  styleUrls: ['./product-home.component.scss']
 })
 export class ProductHomeComponent implements OnInit {
   columns: string[] = ['image', 'name', 'description', 'currency', 'price', 'state', 'action'];
   dataSource: Product[] = [];
+  searchText: string = '';
 
   productService = inject(ProductService);
   private dialog = inject(MatDialog);
@@ -61,6 +64,17 @@ export class ProductHomeComponent implements OnInit {
         this.snackbar.open('Se inactivo el producto', 'Aceptar');
       }
     })
+  }
+
+  get filteredProducts(): Product[] {
+    const search = this.searchText.toLowerCase();
+    return this.dataSource.filter(product =>
+      product.name?.toLowerCase().includes(search) ||
+      product.description?.toLowerCase().includes(search) ||
+      product.currencyCode?.toLowerCase().includes(search) ||
+      product.price?.toString().includes(search) ||
+      (product.state !== undefined && product.state.toString().toLowerCase().includes(search))
+    );
   }
 
 }
